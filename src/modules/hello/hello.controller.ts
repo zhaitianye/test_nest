@@ -9,11 +9,14 @@ import {
   Body,
   Param,
   Headers,
-  Redirect
+  Redirect,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 
 import { HelloService } from './hello.service';
 import { CreateCatDto, UpdateCatDto } from './hello.dto';
+import { Cat } from './hello.interface';
 
 // 按模块划分，这一级别不能直接请求
 @Controller('/hello')
@@ -22,7 +25,7 @@ export class HelloController {
 
   // 简单get，无参数
   @Get('cats')
-  async findAll(): Promise<Object> {
+  async findAll(): Promise<Record<string, any>> {
     // const retult = await this.helloService.fetch(id);
     return { msg: 'This action returns all hello' }
   }
@@ -64,5 +67,27 @@ export class HelloController {
   @Put('cats/:id')
   updatePut(@Param('id') id: string, @Body() payload: UpdateCatDto) {
     return `This action updates a ${id} cat`;
+  }
+
+  // 使用接口interface和service
+  @Get('interface')
+  async findAllInterFace(): Promise<Cat[]> {
+    return this.helloService.findAll();
+  }
+
+  // 使用接口interface和service，这里会创建并存储在内存里，不知道为什么
+  @Post('interface')
+  async createInterFace(@Body() createCatDto: CreateCatDto) {
+    this.helloService.create(createCatDto);
+    return '成功'
+  }
+
+  // 异常处理
+  @Get('errors')
+  async dealErrors(): Promise<Record<string, any>> {
+    // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    throw new HttpException('未找到资源', HttpStatus.NOT_FOUND);
+
+    return this.helloService.errorTest();
   }
 }

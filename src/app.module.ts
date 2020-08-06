@@ -1,4 +1,6 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
+
 import { HelloModule } from './modules/hello/hello.module';
 
 @Module({
@@ -6,4 +8,10 @@ import { HelloModule } from './modules/hello/hello.module';
     HelloModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule  {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('hello');
+  }
+}
