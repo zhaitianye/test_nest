@@ -12,6 +12,9 @@ import {
   Redirect,
   HttpException,
   HttpStatus,
+  ParseBoolPipe,
+  ParseIntPipe,
+  ParseUUIDPipe
 } from '@nestjs/common';
 
 import { HelloService } from './hello.service';
@@ -89,5 +92,15 @@ export class HelloController {
     throw new HttpException('未找到资源', HttpStatus.NOT_FOUND);
 
     return this.helloService.errorTest();
+  }
+
+  // 使用默认管道
+  @Get('pipe/getoneInt/:id')
+  async piprGetoneInt(
+    @Param('id', new ParseBoolPipe()) id,
+    @Query('version', new ParseIntPipe()) version,
+    @Query('uuid', new ParseUUIDPipe()) uuid,
+  ): Promise<Record<string, any>> {
+    return [];
   }
 }
