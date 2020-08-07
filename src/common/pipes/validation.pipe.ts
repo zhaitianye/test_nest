@@ -16,7 +16,8 @@ export class ValidationPipe implements PipeTransform<any> {
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
-      throw new BadRequestException('提交参数不符合规范');
+      const msg = Object.values(errors[0].constraints)[0]; // 只需要取第一个错误信息并返回即可
+      throw new BadRequestException(`参数验证错误: ${msg}`);
     }
     return value;
   }

@@ -14,12 +14,21 @@ import {
   HttpStatus,
   ParseBoolPipe,
   ParseIntPipe,
-  ParseUUIDPipe
+  ParseUUIDPipe,
 } from '@nestjs/common';
 
 import { HelloService } from './hello.service';
-import { CreateCatDto, UpdateCatDto } from './hello.dto';
+import { 
+  CreateCatDto,
+  UpdateCatDto,
+  SpecificDtoPath,
+  SpecificDtoQuery,
+  SpecificDtoBody
+} from './hello.dto';
 import { Cat } from './hello.interface';
+
+
+
 
 // 按模块划分，这一级别不能直接请求
 @Controller('/hello')
@@ -100,6 +109,15 @@ export class HelloController {
     @Param('id', new ParseBoolPipe()) id,
     @Query('version', new ParseIntPipe()) version,
     @Query('uuid', new ParseUUIDPipe()) uuid,
+  ): Promise<Record<string, any>> {
+    return [];
+  }
+
+  // 使用特定
+  @Get('pipe/specific/:id')
+  async pipeSpecific(
+    @Param() id : SpecificDtoPath,
+    @Query() query,
   ): Promise<Record<string, any>> {
     return [];
   }
