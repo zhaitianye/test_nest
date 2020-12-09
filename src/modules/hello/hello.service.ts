@@ -6,7 +6,7 @@ export class HelloService {
   private readonly cats: Cat[] = [];
 
   // 服务应该是无状态的，但是这个状态保存在内存里面，不清楚为啥要这样用
-  create(cat: Cat) {
+  create(cat: Cat): void {
     this.cats.push(cat);
   }
 
@@ -15,12 +15,12 @@ export class HelloService {
   }
 
 
-  async test(id): Promise<string> {
+  async test(id: string): Promise<string> {
     return `Hello test! ${id}`;
   }
 
 
-  async fetch(id): Promise<string> {
+  async fetch(id: string): Promise<string> {
     return `Hello World! ${id}`;
   }
 

@@ -9,7 +9,7 @@ import { HelloModule } from './modules/hello/hello.module';
   ],
 })
 export class AppModule implements NestModule  {
-  configure(consumer: MiddlewareConsumer) {
+  configure(consumer: MiddlewareConsumer): void{
     consumer
       .apply(LoggerMiddleware)
       .forRoutes('hello');
