@@ -17,9 +17,12 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CreateCatDto, UpdateCatDto } from './cats.dto';
+import { PigsService } from '../pigs/pigs.service';
 
 @Controller('cats')
 export class CatsController {
+  constructor(private pigsService: PigsService) {}
+
   @Get()
   getName1(): string {
     return `functionName1 This action returns all cats`;
@@ -70,6 +73,11 @@ export class CatsController {
       key: 123,
       value: 123123,
     };
+  }
+
+  @Get('test1')
+  async getName10(): Promise<string> {
+    return this.pigsService.testSer();
   }
 
   @Post()
